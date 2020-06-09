@@ -1,0 +1,40 @@
+{
+    "model":{
+        "encoder_max_length": 300,
+        "decoder_max_length": 100,
+        "attention_blocks": 5,
+        "cnn_blocks": 5,
+        "maxpool_idx": 3,
+        "d_model": 1015,
+        "dff": 2030,
+        "num_heads": 35,
+        "dropout_rate": 0.1,
+        "maxpool_kernel": 6
+    },
+    "train":{
+        "data":"mapped_therest.hdf5",
+        "bacteria":["Bacillus", "Lactobacillus", "Pseudomonas", "Listeria", "Enterococcus", "Salmonella", "Escherichia"],
+        "epochs": 4000,
+        "patience": 1000,
+        "warmup":10,
+        "batches":1000,
+        "batch_size":32,
+        "stride":100,
+        "lr_mult": 100
+    },
+    "validate":{
+        "data":"mapped_umi16to9.hdf5",
+        "bacteria":["Staphylococcus"],
+        "reads":3,
+        "batch_size":300,
+        "stride":300,
+        "algorithm": "editdistance"  
+    },
+    "test":{
+        "data":"mapped_umi16to9.hdf5",
+        "bacteria":["Bacillus", "Staphylococcus", "Lactobacillus", "Pseudomonas", "Listeria", "Enterococcus", "Salmonella", "Escherichia"],
+        "reads":500,
+        "batch_size":300,
+        "stride":300
+    }
+}
