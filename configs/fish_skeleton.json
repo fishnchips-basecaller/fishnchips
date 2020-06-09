@@ -12,28 +12,28 @@
         "maxpool_kernel": 2
     },
     "train":{
-        "data":"mapped_therest.hdf5",
+        "data":"/mnt/c/Users/mirop/OneDrive/Documents/Programming/Data/bdm/mapped_therest.hdf5",
         "bacteria":["Bacillus", "Staphylococcus", "Lactobacillus", "Pseudomonas", "Listeria", "Enterococcus", "Salmonella"],
-        "epochs": 500,
+        "epochs": 1,
         "patience": 300,
         "warmup":100,
-        "batches":1000,
+        "batches":2,
         "batch_size":32,
         "stride":100,
         "lr_mult": 1
     },
     "validate":{
-        "data":"mapped_therest.hdf5",
+        "data":"/mnt/c/Users/mirop/OneDrive/Documents/Programming/Data/bdm/mapped_therest.hdf5",
         "bacteria":["Escherichia"],
-        "reads":3,
+        "reads":1,
         "batch_size":300,
         "stride":300,
         "algorithm": "editdistance"
     },
     "test":{
-        "data":"mapped_umi16to9.hdf5",
+        "data":"/mnt/c/Users/mirop/OneDrive/Documents/Programming/Data/bdm/mapped_umi16to9.hdf5",
         "bacteria":["Staphylococcus", "Escherichia"],
-        "reads":500,
+        "reads":1,
         "batch_size":300,
         "stride":300
     }

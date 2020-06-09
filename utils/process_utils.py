@@ -1,4 +1,4 @@
-from utils.AttentionDataGenerator import AttentionDataGenerator
+from utils.preprocessing.AttentionDataGenerator import AttentionDataGenerator
 
 def get_generator(model_config, process_config, kind=""):
     data = process_config['data']

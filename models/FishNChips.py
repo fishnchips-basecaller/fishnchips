@@ -1,8 +1,7 @@
 import tensorflow as tf
 
-from models.Layers.ConvBlock import ConvolutionBlock
+from models.ConvBlock import ConvolutionBlock
 from models.Attention.Transformer import Transformer
-from utils.Other import with_timer
 
 class FishNChips(tf.keras.Model):
     def __init__(self, num_cnn_blocks, max_pool_layer_idx, max_pool_kernel_size, num_layers, d_model, output_dim, num_heads, dff, pe_encoder_max_length, pe_decoder_max_length, rate=0.1):
@@ -20,14 +19,12 @@ class FishNChips(tf.keras.Model):
 
         self.transformer = Transformer(num_layers=num_layers, d_model=d_model, output_dim=output_dim, num_heads=num_heads, dff=dff, pe_encoder_max_length=pe_encoder_max_length, pe_decoder_max_length=pe_decoder_max_length)
     
-    #@with_timer
     def call(self, inp, tar, training, look_ahead_mask, use_cached_enc_ouput=False):
         x = self.first_cnn(inp) # to bring to proper dimensionality
         x = self.call_cnn_blocks(x) # won't do anything if no cnn blocks
         att_output, att_weights = self.transformer(x, tar, training, look_ahead_mask, use_cached_enc_ouput)
         return att_output, att_weights
 
-    #@with_timer  
     def call_cnn_blocks(self, x):
         for i,cnn_block in enumerate(self.cnn_blocks):
             x = cnn_block(x)

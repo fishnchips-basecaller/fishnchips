@@ -1,13 +1,9 @@
 import sys
 import json
 import os
-import time
-import tensorflow as tf
 import datetime
 
 from models.FishNChips import FishNChips
-from models.Attention.CustomSchedule import CustomSchedule
-from utils.AttentionDataGenerator import AttentionDataGenerator
 from controllers.TrainingController import TrainingController
 from controllers.TestingController import TestingController
 
@@ -26,7 +22,7 @@ def load_config(filepath):
 
 def get_model_save_filepath(model_config, train_config, validation_config, run_name):
     try:
-        path = f"./trained_models_2/{run_name}"
+        path = f"./trained_models/{run_name}"
         create_path(path)
 
         model_filepath = f"{path}/fishnchips{len(train_config['bacteria'])}{len(validation_config['bacteria'])}_{model_config['d_model']}_{model_config['cnn_blocks']}CNN_{model_config['num_heads']}H_{model_config['attention_blocks']}B"

@@ -2,7 +2,7 @@ import mappy as mp
 from collections import deque
 import re
 
-reference_file = "../useful_files/zymo-ref-uniq_2019-03-15.fa"
+reference_file = "./temps/ref-uniq.fa"
 
 def get_comparison(dna_pred, use_color=True):
     dna_pred, dna_true, dna_cigar = _align(dna_pred)

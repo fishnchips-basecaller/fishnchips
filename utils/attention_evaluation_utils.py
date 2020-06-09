@@ -11,37 +11,6 @@ def build(model):
     combined_mask = create_combined_mask(output)
     _, _ = model(inp, output, False, combined_mask)
 
-def evaluate_window(inp, model, as_bases=True):
-
-    start_token = 5
-    end_token = 6   
-
-    inp = tf.expand_dims(inp, 0) # (1, encoder_max_length, 1)
-    output = tf.expand_dims([start_token], 0) # (1, 1)
-
-    attention_weights = None
-    for _ in range(model.pe_decoder_max_length):
-        combined_mask = create_combined_mask(output)
-        predictions, attention_weights = model(inp, output, False, combined_mask)
-        predictions = predictions[: ,-1:, :]
-        predicted_id = tf.cast(tf.argmax(predictions, axis=-1), tf.int32)
-
-        if predicted_id == end_token:
-            output = output[:,1:]
-            output = tf.squeeze(output, axis=0).numpy()
-            if as_bases:
-                output = "".join([attentionLabelBaseMap[base_token] for base_token in output])
-            return output, attention_weights
-
-        output = tf.concat([output, predicted_id], axis=-1)
-    
-    output = output[:,1:]
-    output = tf.squeeze(output, axis=0).numpy()
-    if as_bases:
-        output = "".join([attentionLabelBaseMap[base_token] for base_token in output])
-    return output, attention_weights
-
-# @with_eval_timer
 def evaluate_batch(inp, model, batch_size, as_bases=True):
     
     start_token = 5

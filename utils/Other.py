@@ -21,9 +21,6 @@ attentionLabelBaseMap = {
     6: 'E'
 }
 
-def print_tensor_to_file(value, file="info"):
-    tf.print(value, output_stream=f"file://./{file}.out", summarize=1000000)
-
 def set_gpu_limit(limitMB):
     gpus = tf.config.experimental.list_physical_devices('GPU')
     if gpus:
@@ -45,7 +42,6 @@ def set_gpu_growth():
         except RuntimeError as e:
             print(e)
 
-
 def get_taiyaki_filepath(filename):
     paths = ["/mnt/nvme/bio/taiyaki_aligned/",
              "/ssd/",
@@ -62,44 +58,6 @@ def get_taiyaki_filepath(filename):
     else:
         raise Exception(f"File {path}{filename} could not be found!")
 
-def get_valid_taiyaki_filename(training):
-    train_filenames = ["/mnt/nvme/bio/taiyaki_aligned/mapped_therest.hdf5",
-			              "/user/student.aau.dk/fgravi18/data/mapped_therest.hdf5",
-                          "/ssd/mapped_therest.hdf5",
-                          "/Users/felix/MsC/DNA/mapped_therest.hdf5",
-                          "c:/Users/mirop/OneDrive/Documents/Programming/Data/bdm/mapped_therest.hdf5",
-                          "/mnt/c/Users/mirop/OneDrive/Documents/Programming/Data/bdm/mapped_therest.hdf5"]
-
-    test_filenames = ["/mnt/nvme/bio/taiyaki_aligned/mapped_umi16to9.hdf5",
-			              "/user/student.aau.dk/fgravi18/data/mapped_umi16to9.hdf5",
-                          "/ssd/mapped_umi16to9.hdf5",
-                          "/Users/felix/MsC/DNA/mapped_umi16to9.hdf5",
-                          "c:/Users/mirop/OneDrive/Documents/Programming/Data/bdm/mapped_umi16to9.hdf5",
-                          "/mnt/c/Users/mirop/OneDrive/Documents/Programming/Data/bdm/mapped_umi16to9.hdf5"]
-
-    possible_filenames = train_filenames if training else test_filenames
-
-    for filename in possible_filenames:
-        if os.path.isfile(filename):
-            print(f"Loading data from file:{filename}")
-            return filename
-    else:
-        raise "Read data file could not be found!"
-
-def get_valid_model_filename(model_name):
-    possible_filenames = [
-        f"/mnt/c/Users/mirop/OneDrive/Documents/Programming/Data/bdm/outputs/{model_name}/checkpoints/model.h5",
-        f"c:/Users/mirop/OneDrive/Documents/Programming/Data/bdm/outputs/{model_name}/checkpoints/model.h5"
-    ]
-
-    print(possible_filenames[0])
-
-    for filename in possible_filenames:
-        if os.path.isfile(filename):
-            return filename
-    else:
-        raise f"Model file could not be found!"
-  
 def analyse_cigar(cigar_string):
     res = re.findall(r'[\d]+[SMDI]', cigar_string)
     d = {"S":0,"M":0,"D":0,"I":0}
