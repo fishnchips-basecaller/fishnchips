@@ -25,8 +25,10 @@ sample configuration files are located in the `configs` folder and describe the 
 
 Testing can be done using concatenation or assembly, based on stride:
 
-`encoder_max_length == stride => concatenation`
-`encoder_max_length > stride => assembly`
+```
+encoder_max_length == stride => concatenation
+encoder_max_length > stride => assembly
+```
 
 ## Running Gravlax
 
