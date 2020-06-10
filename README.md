@@ -6,7 +6,7 @@
 * folder with fast5 files for creating uids.json
     * multifast5 can be converted to fast5 using `multi_to_single_fast5` (`pip install ont_fast5_api`)
 * folder with taiyaki outputs. We had multiple which allowed us to simply use the files themselves to ensure training was done on separate data than validating and testing
-* Adapt reference file (`/temps/ref-uniq.fa`) to one containing relevant DNA
+* Adapt reference file (`temps/ref-uniq.fa`) to one containing relevant DNA
 
 ## Requirements
 * python3.7
