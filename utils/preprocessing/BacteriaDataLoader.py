@@ -2,13 +2,11 @@ import h5py
 import numpy as np
 from collections import deque
 
-from utils.Other import get_taiyaki_filepath
 from utils.cigar_vizualiser import get_mapping
 from utils.Other import labelBaseMap
 
 class BacteriaDataLoader:
     def __init__(self, filename):
-        # self._filename = get_taiyaki_filepath(filename)
         self._filename = filename
 
     def load_read_ids(self):
