@@ -1,4 +1,5 @@
-# FishNChips - a Transformer basecaller
+# FishNChips - a CNN-Transformer basecaller
+# Gravlax - a CNN-LSTM-CTC basecaller
 
 ## Required data
 
@@ -14,7 +15,9 @@
 * editdistance
 
 
-## Running
+## Running FishNChips
+
+The FishNChips pipeline is run using the `run_fish.py` script, and the configurations can be passed as CL arguments. The script trains the model if not already trained and performs evaluation once training stops.
 
 `python run-fish.py config.json experimentname`
 
@@ -25,3 +28,8 @@ Testing can be done using concatenation or assembly, based on stride:
 `encoder_max_length == stride => concatenation`
 `encoder_max_length > stride => assembly`
 
+## Running Gravlax
+
+Gravlax is trained using `train_gravlax.py` and evaluated using `test_gravlax.py`. 
+
+Gravlax does not have configurations, the parameters are hardcoded in the scripts. The naming of the output file is created based off the parameters, which helps distinguish models.

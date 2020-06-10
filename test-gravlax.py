@@ -20,19 +20,23 @@ class style():
     RED = lambda x: f"\033[31m{x}\033[0m"
     GREEN = lambda x: f"\033[32m{x}\033[0m"
 
-num_trained = 7
-num_val = 1
-model = 'trained_models/gravlax71-256CNN-250LSTM-pad5-bn-maxpool3/2020-06-10_16:06:17/checkpoints/00000_dis2866.h5'
+
+
+num_trained = 7 # hardcoded based on training (number of bacteria it was trained on)
+num_val = 1 # hardcoded based on training (number of bacteria it was validated on)
+gravlax_model_name = "name of gravlax model as in path"
+gravlax_train_time = "time of training as in path"
+gravlax_weights_file = "h5 file inside the checkpoints folder"
+model = f'trained_models/{gravlax_model_name}/{gravlax_train_time}/checkpoints/{gravlax_weights_file}.h5'
 
 input_length = 300
 reads_to_eval = 200
 
 
-filename = "/mnt/nvme/bio/taiyaki_aligned/mapped_umi11to5.hdf5"
+filename = "/ssd/mapped_umi11to5.hdf5"
 bacteria = ["Escherichia", "Salmonella"]
 generator = DataGenerator(filename, bacteria, batch_size=None, input_length=input_length, stride=20, reads_count=None, rnn_pad_size=None, use_maxpool=None).get_evaluate_batch()
 
-# 7 1 hardcoded based on how the model was trained...
 modelname, gravlax = gravlax_for_file(input_length, model, num_trained, num_val, False, True)
 
 result_dict = []
