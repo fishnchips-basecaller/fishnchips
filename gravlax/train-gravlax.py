@@ -1,5 +1,5 @@
 #%% 
-from gravlax.models.ChironBuilder import ChironBuilder
+from gravlax.models.GravlaxBuilder import GravlaxBuilder
 from gravlax.models.Callback import SaveCB
 
 from utils.preprocessing.DataGenerator import DataGenerator
@@ -21,7 +21,7 @@ val_generator = DataGenerator(filename, bacteria=test_bacteria, batch_size=500, 
 
 #%%
 
-cb = ChironBuilder(input_length, len(train_bacteria), len(test_bacteria), cnn_filters=256, lstm_units=250)\
+cb = GravlaxBuilder(input_length, len(train_bacteria), len(test_bacteria), cnn_filters=256, lstm_units=250)\
         .with_rnn_padding(rnn_padding)\
         .with_batch_normalization()
 cb = cb.with_maxpool(3) if use_maxpool else cb

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 from utils.Other import labelBaseMap
 
-class Chiron():
+class Gravlax():
     
     def __init__(self, input_length, cnn_filters, lstm_units, rnn_padding, batch_normalization, maxpool_layer, model_name, dropout, use_None_input):
         self.input_length = input_length

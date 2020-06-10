@@ -45,7 +45,7 @@ class GravlaxBuilder():
         return self
     
     def build(self):
-        return Chiron(
+        return Gravlax(
             input_length=self.input_length,
             cnn_filters=self.cnn_filters,
             lstm_units=self.lstm_units,
