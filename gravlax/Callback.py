@@ -22,14 +22,14 @@ class SaveCB(Callback):
         self.waited = 0
 
     def withCheckpoints(self):
-        self.model_output_dir = f"outputs/{self.modelwrapper.name}/{self.start_time}/checkpoints/"
+        self.model_output_dir = f"trained_models/{self.modelwrapper.name}/{self.start_time}/checkpoints/"
         if not os.path.exists(self.model_output_dir):
             os.makedirs(self.model_output_dir)
         self.save_model_flag = True
         return self
 
     def withImageOutput(self):
-        self.image_output_dir = f"outputs/{self.modelwrapper.name}/{self.start_time}/images/"
+        self.image_output_dir = f"trained_models/{self.modelwrapper.name}/{self.start_time}/images/"
         if not os.path.exists(self.image_output_dir):
             os.makedirs(self.image_output_dir)
         self.save_image_flag = True

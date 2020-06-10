@@ -1,4 +1,4 @@
-from models.Gravlax import Gravlax
+from gravlax.Gravlax import Gravlax
 import re
 
 class GravlaxBuilder():
@@ -12,7 +12,7 @@ class GravlaxBuilder():
         self.batch_normalization = False
         self.dropout = False
         self.none_input = False
-        self.model_name = f"chiron{num_train}{num_validate}-{cnn_filters}CNN-{lstm_units}LSTM"
+        self.model_name = f"gravlax{num_train}{num_validate}-{cnn_filters}CNN-{lstm_units}LSTM"
 
     def with_batch_normalization(self):
         self.batch_normalization = True
@@ -58,11 +58,11 @@ class GravlaxBuilder():
 
 
 '''
-makes a chiron for the model file
+makes a gravlax for the model file
 loads the weights
 returns name of model and predict func
 '''
-def chiron_for_file(input_length, file, num_train, num_validate, with_None_input=False, use_our_predict=False):
+def gravlax_for_file(input_length, file, num_train, num_validate, with_None_input=False, use_our_predict=False):
     description = file.split("/")[1]
     if "CNN" in description:
         cnn = int(re.findall(r"\d+CNN", description)[0][:-3])
@@ -71,17 +71,17 @@ def chiron_for_file(input_length, file, num_train, num_validate, with_None_input
         cnn = 256
         lstm = 200
 
-    cb = GravlaxBuilder(input_length, num_train, num_validate, cnn_filters=cnn, lstm_units=lstm)
+    gb = GravlaxBuilder(input_length, num_train, num_validate, cnn_filters=cnn, lstm_units=lstm)
     if "bn" in description:
-        cb = cb.with_batch_normalization()
+        gb = gb.with_batch_normalization()
     if "pad5" in description:
-        cb = cb.with_rnn_padding(5)
+        gb = gb.with_rnn_padding(5)
     if "maxpool3" in description:
-        cb = cb.with_maxpool(3)
+        gb = gb.with_maxpool(3)
     if with_None_input:
-        cb = cb.with_None_input()
-    chiron = cb.build()
-    chiron.load_weights(file)
+        gb = gb.with_None_input()
+    gravlax = gb.build()
+    gravlax.load_weights(file)
     if use_our_predict:
-        return (chiron.name, chiron.predict)
-    return (chiron.name, chiron.predict_beam_search) # using get_model_name instead of description for safety
+        return (gravlax.name, gravlax.predict)
+    return (gravlax.name, gravlax.predict_beam_search) # using get_model_name instead of description for safety

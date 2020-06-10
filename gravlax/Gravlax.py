@@ -156,7 +156,7 @@ class Gravlax():
 
         loss_out = Lambda(ctc_lambda_func, output_shape=(1,), name='ctc')([y_pred, labels, input_length, label_length])
 
-        model = Model(inputs=[input_data, labels, input_length, label_length], outputs=loss_out, name="chiron")
+        model = Model(inputs=[input_data, labels, input_length, label_length], outputs=loss_out, name="gravlax")
         model.compile(loss={'ctc': lambda y_true, y_pred: y_pred}, optimizer='adam')
         
         testfunc = tf.keras.backend.function(input_data, y_pred)
