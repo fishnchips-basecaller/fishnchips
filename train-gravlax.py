@@ -11,11 +11,11 @@ input_length = 300
 rnn_padding = 5
 use_maxpool = True
 
-filename = "/mnt/nvme/bio/taiyaki_aligned/mapped_therest.hdf5"
+filename = "/ssd/mapped_therest.hdf5"
 train_bacteria = ["Bacillus", "Staphylococcus", "Lactobacillus", "Pseudomonas", "Listeria", "Enterococcus", "Salmonella"]
 generator = DataGenerator(filename, bacteria=train_bacteria, batch_size=1000, input_length=input_length, stride=30, reads_count=5, rnn_pad_size=rnn_padding, use_maxpool=use_maxpool)
 
-filename = "/mnt/nvme/bio/taiyaki_aligned/mapped_umi11to5.hdf5"
+filename = "/ssd/mapped_umi11to5.hdf5"
 test_bacteria = ["Escherichia"]
 val_generator = DataGenerator(filename, bacteria=test_bacteria, batch_size=500, input_length=input_length, stride=150, reads_count=5, rnn_pad_size=rnn_padding, use_maxpool=use_maxpool)
 
