@@ -21,7 +21,6 @@ class style():
     GREEN = lambda x: f"\033[32m{x}\033[0m"
 
 
-
 num_trained = 7 # hardcoded based on training (number of bacteria it was trained on)
 num_val = 1 # hardcoded based on training (number of bacteria it was validated on)
 gravlax_model_name = "name of gravlax model as in path"
@@ -36,7 +35,6 @@ reads_to_eval = 200
 filename = "/ssd/mapped_umi11to5.hdf5"
 bacteria = ["Escherichia", "Salmonella"]
 generator = DataGenerator(filename, bacteria, batch_size=None, input_length=input_length, stride=20, reads_count=None, rnn_pad_size=None, use_maxpool=None).get_evaluate_batch()
-
 modelname, gravlax = gravlax_for_file(input_length, model, num_trained, num_val, False, True)
 
 result_dict = []
