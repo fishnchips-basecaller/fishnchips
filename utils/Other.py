@@ -11,6 +11,16 @@ labelBaseMap = {
     4: "-"
 }
 
+attentionLabelBaseReverseMap = {
+    "P":0,
+    "A":1,
+    "C":2,
+    "G":3,
+    "T":4,
+    "S":5,
+    "E":6
+}
+
 attentionLabelBaseMap = {
     0: 'P',
     1: 'A',

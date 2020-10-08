@@ -2,6 +2,7 @@ import numpy as np
 from collections import deque
 
 from utils.preprocessing.BacteriaDataLoader import BacteriaDataLoader
+from utils.preprocessing.chiron_files.chiron_data_loader import ChironDataLoader
 
 class DataBuffer():
 
@@ -9,11 +10,13 @@ class DataBuffer():
         
         self._position = 0
         self._bacteria = bacteria
-        self._loader = BacteriaDataLoader(filename)
+
+        self._loader = ChironDataLoader(filename)
+        self._read_ids = self._loader.get_ids()
+
         self._size = size
         self._signal_windows = []
         self._label_windows = []
-        self._read_ids = self._get_read_ids()
         
     def get_windows_in_batch(self, batch_size, window_size, window_stride, min_labels_per_window):
         while (len(self._label_windows) < batch_size):
@@ -37,7 +40,7 @@ class DataBuffer():
         self._position += 1
         read_id = self._read_ids[pos]
 
-        DAC, _, REF = self._loader.load_read(read_id)
+        DAC, _, REF = self._loader.get_read(read_id)
         x_read, y_read = self._fetch_read(read_id, window_size, window_stride, min_labels_per_window=0)
         return x_read, y_read, list(REF), DAC, read_id
 
@@ -59,10 +62,10 @@ class DataBuffer():
             read_id_idx = self._position + (skips + found)
             read_id = self._read_ids[read_id_idx]
             
-            is_read_id_valid = self._loader.is_read_id_in_bacteria_lst(read_id, self._bacteria)
-            if is_read_id_valid == False:
-                skips += 1
-                continue
+            # is_read_id_valid = self._loader.is_read_id_in_bacteria_lst(read_id, self._bacteria)
+            # if is_read_id_valid == False:
+            #     skips += 1
+            #     continue
             
             read_x, read_y = self._fetch_read(read_id, window_size, window_stride, min_labels_per_window) 
 
@@ -86,9 +89,10 @@ class DataBuffer():
 
     def _fetch_read(self, read_id, window_size, window_stride, min_labels_per_window):
         x_read = []
-        y_read = []       
-        DAC, RTS, REF = self._loader.load_read(read_id)
-
+        y_read = []
+        print(f"*** fetching id:{read_id}.")       
+        DAC, RTS, REF = self._loader.get_read(read_id)
+        
         curdacs  = deque( [[x] for x in DAC[RTS[0]:RTS[0]+window_size-window_stride]], window_size )
         curdacts = RTS[0]+ window_size-window_stride
         labels  = deque([])

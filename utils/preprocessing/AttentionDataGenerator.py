@@ -13,7 +13,7 @@ class AttentionDataGenerator(DataGenerator):
         self._pe_decoder_max_length = pe_decoder_max_length
         self._batch_count = 0
 
-        self._set_umi_to_bact_dict()
+        # self._set_umi_to_bact_dict()
 
     def _set_umi_to_bact_dict(self):
         path = "./temps/uids.json"
@@ -49,19 +49,10 @@ class AttentionDataGenerator(DataGenerator):
                 self.input_length,
                 self.stride
             )
-            if read_id not in self._umibactdict:
-#                print("Not in dict")
-                continue
-            if len(self.bacteria) == 0:
-                x_windows = np.array(x_windows)
-                y_windows = self._to_target_language(y_orig_windows, label_as_bases)
-                yield x_windows, y_windows, ref, raw, read_id
-            else:
-                for bact in self.bacteria:
-                    if bact in self._umibactdict[read_id]:
-                        x_windows = np.array(x_windows)
-                        y_windows = self._to_target_language(y_orig_windows, label_as_bases)
-                        yield x_windows, y_windows, ref, raw, read_id
+
+            x_windows = np.array(x_windows)
+            y_windows = self._to_target_language(y_orig_windows, label_as_bases)
+            yield x_windows, y_windows, ref, raw, read_id
 
     def _to_target_language(self, y_orig, as_bases):
         y_new = []
