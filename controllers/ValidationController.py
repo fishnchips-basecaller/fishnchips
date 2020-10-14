@@ -45,7 +45,7 @@ class ValidationController():
         performed = 0
 
         for r in range(self._reads):
-            print(f"{r+1}/{self._reads}", end="\r")
+            print(f"fetching {r+1}/{self._reads}")
             try:
                 x_windows, y_windows, _, _, _ = next(self._generator.get_window_batch(label_as_bases=True))
                 nr_windows = len(x_windows)
@@ -54,10 +54,12 @@ class ValidationController():
 
                 y_pred = []
                 for b in range(0,nr_windows,self._batch_size):
+                    print(f"   evaluating batch {b}-{b+self._batch_size}/{self._reads}")
                     x_batch = x_windows[b:b+self._batch_size]          
                     y_batch_pred, _ = evaluate_batch(x_batch, model, len(x_batch), as_bases=True)
                     y_pred.extend(y_batch_pred)
 
+                print(f"assembling {r+1}/{self._reads}")
                 assembly = self.get_assembly(y_pred)
                 acc = self.get_cig_loss(assembly)
                 val_loss += acc

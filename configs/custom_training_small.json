@@ -1,0 +1,40 @@
+{
+  "model":{
+      "encoder_max_length": 300,
+      "decoder_max_length": 100,
+      "attention_blocks": 4,
+      "cnn_blocks": 5,
+      "maxpool_idx": 3,
+      "d_model": 250,
+      "dff": 512,
+      "num_heads": 25,
+      "dropout_rate": 0.1,
+      "maxpool_kernel": 3
+  },
+  "train":{
+      "data":"/Users/aau/Projects/fishnchips/data/train",
+      "bacteria":[],
+      "epochs": 2,
+      "patience": 1000,
+      "warmup":10,
+      "batches":10,
+      "batch_size":32,
+      "stride":100,
+      "lr_mult": 10
+  },
+  "validate":{
+      "data":"/Users/aau/Projects/fishnchips/data/eval",
+      "bacteria":["Bacillus", "Staphylococcus", "Lactobacillus", "Pseudomonas", "Listeria", "Enterococcus", "Salmonella", "Escherichia"],
+      "reads":1,
+      "batch_size":300,
+      "stride":300,
+      "algorithm": "editdistance"  
+  },
+  "test":{
+      "data":"/Users/aau/Projects/fishnchips/data/eval",
+      "bacteria":["Bacillus", "Staphylococcus", "Lactobacillus", "Pseudomonas", "Listeria", "Enterococcus", "Salmonella", "Escherichia"],
+      "reads":5,
+      "batch_size":300,
+      "stride":300
+  }
+}
