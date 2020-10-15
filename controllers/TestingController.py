@@ -8,9 +8,11 @@ from utils.process_utils import get_generator
 from utils.attention_evaluation_utils import evaluate_batch
 from utils.assembler import assemble
 from utils.Other import analyse_cigar
+from utils.preprocessing.chiron_files.chiron_data_utils import process_label_str
 
 class TestingController():
     def __init__(self, model_config, test_config, model_filepath):
+        self._reference_path = test_config['data']
         self._generator = get_generator(model_config, test_config, kind="testing")
         self._reads = test_config['reads']
         self._batch_size = test_config['batch_size']
@@ -27,9 +29,9 @@ class TestingController():
                     return json.load(f)
         return []
 
-    def _get_cig_result(self, assembly, read_id):
+    def _get_cig_result(self, assembly, aligner, read_id):
         try:
-            besthit = next(self._aligner.map(assembly))
+            besthit = next(aligner.map(assembly))
             return {
                     'read_id':read_id,
                     'ctg': besthit.ctg,
@@ -67,12 +69,30 @@ class TestingController():
         progstr += "]"
         return progstr
 
+    def _set_aligner(self, reference_str):
+        pass
+
+    def _compute_reference(self, read_id):
+        try:
+            path = f'{self._reference_path}/{read_id}.label'
+            with open(path, 'r') as f:
+                data = f.read()
+            reference_queue, _ = process_label_str(data, as_bases=True)
+            return ''.join(list(reference_queue))
+            
+        except Exception as e:
+            print(f'*** unable to get reference for read id {read_id}')
+            return ''
+
     def test(self, model):
         print("*** testing...")
 
         for read in range(len(self._result_dic), self._reads):
             try:
                 x_windows, y_windows, _, _, read_id = next(self._generator.get_window_batch(label_as_bases=True))
+                
+                reference = self._compute_reference(read_id)
+                aligner = mp.Aligner(reference)
                 nr_windows = len(x_windows)
 
                 assert nr_windows == len(y_windows)
@@ -88,7 +108,7 @@ class TestingController():
                     y_pred.extend(y_batch_pred)
 
                 assembly = self._get_assembly(y_pred)
-                result = self._get_cig_result(assembly, read_id)
+                result = self._get_cig_result(assembly, aligner, read_id)
                 result['time'] = time.time() - start_time
                 self._result_dic.append(result)
 

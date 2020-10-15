@@ -14,10 +14,10 @@
   "train":{
       "data":"/Users/aau/Projects/fishnchips/data/train",
       "bacteria":[],
-      "epochs": 2,
+      "epochs": 1,
       "patience": 1000,
       "warmup":10,
-      "batches":10,
+      "batches":3,
       "batch_size":32,
       "stride":100,
       "lr_mult": 10
@@ -25,7 +25,7 @@
   "validate":{
       "data":"/Users/aau/Projects/fishnchips/data/eval",
       "bacteria":["Bacillus", "Staphylococcus", "Lactobacillus", "Pseudomonas", "Listeria", "Enterococcus", "Salmonella", "Escherichia"],
-      "reads":1,
+      "reads":0,
       "batch_size":300,
       "stride":300,
       "algorithm": "editdistance"  

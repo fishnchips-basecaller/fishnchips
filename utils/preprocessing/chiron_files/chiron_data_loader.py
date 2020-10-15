@@ -2,8 +2,7 @@ import sys
 import numpy as np
 
 from os import listdir
-from collections import deque
-from utils.Other import attentionLabelBaseReverseMap
+from utils.preprocessing.chiron_files.chiron_data_utils import process_label_str
 
 class ChironDataLoader:
 
@@ -32,19 +31,6 @@ class ChironDataLoader:
         np.random.shuffle(arr)
         self._ids = arr
 
-    def _process_label_str(self, label_str):
-        ref = []
-        rts = []
-        
-        label = label_str.split('\n')[:-1]
-        for base_obj in label:
-            split = base_obj.split(' ')
-            rts.append(int(split[0]))
-            ref.append(attentionLabelBaseReverseMap[split[2]])
-
-        rts.append(int(label[-1].split(' ')[1]))
-        return deque(ref), deque(rts)
-
     def _load_file(self, filename):
         with open(filename, 'r') as f:
             return f.read()
@@ -60,7 +46,7 @@ class ChironDataLoader:
         label_str = self._load_file(self._file_dict[idx]["label"])
         signal_str = self._load_file(self._file_dict[idx]["signal"])
 
-        ref, rts = self._process_label_str(label_str)
+        ref, rts = process_label_str(label_str)
         dac = list(map(int, signal_str.split(' ')))
         dac = self._normilize_signal(dac)
         return dac, rts, ref
