@@ -1,5 +1,5 @@
 from collections import deque
-from utils.Other import attentionLabelBaseReverseMap
+from utils.Other import labelBaseReverseMap
 
 def process_label_str(label_str, as_bases=False):
     ref = []
@@ -13,7 +13,7 @@ def process_label_str(label_str, as_bases=False):
         if as_bases:
             ref.append(split[2])
             continue
-        ref.append(attentionLabelBaseReverseMap[split[2]])
+        ref.append(labelBaseReverseMap[split[2]])
 
     rts.append(int(label[-1].split(' ')[1]))
     return deque(ref), deque(rts)
