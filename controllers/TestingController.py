@@ -6,7 +6,7 @@ import os
 
 from utils.process_utils import get_generator
 from utils.attention_evaluation_utils import evaluate_batch
-from utils.assembler import assemble
+from utils.assembler import assemble, assemble_and_output
 from utils.Other import analyse_cigar
 from utils.preprocessing.chiron_files.chiron_data_utils import process_label_str
 
@@ -92,7 +92,6 @@ class TestingController():
                 x_windows, y_windows, _, _, read_id = next(self._generator.get_window_batch(label_as_bases=True))
                 
                 reference = self._compute_reference(read_id)
-                aligner = mp.Aligner(reference)
                 nr_windows = len(x_windows)
 
                 assert nr_windows == len(y_windows)
@@ -108,7 +107,16 @@ class TestingController():
                     y_pred.extend(y_batch_pred)
 
                 assembly = self._get_assembly(y_pred)
+
+                path = f'temps/{read_id}.txt'
+                with open(path, 'w') as f:
+                    f.write('>{read_id}\n')
+                    f.write(reference)             
+
+                aligner = mp.Aligner(path)
                 result = self._get_cig_result(assembly, aligner, read_id)
+                os.remove(path)
+
                 result['time'] = time.time() - start_time
                 self._result_dic.append(result)
 
