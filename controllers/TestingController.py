@@ -110,7 +110,7 @@ class TestingController():
 
                 path = f'temps/{read_id}.txt'
                 with open(path, 'w') as f:
-                    f.write('>{read_id}\n')
+                    f.write(f'>{read_id}\n')
                     f.write(reference)             
 
                 aligner = mp.Aligner(path)
