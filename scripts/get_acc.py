@@ -9,6 +9,7 @@ with open(path, 'r') as f:
 df = pd.DataFrame(data)
 print(df)
 print(f'ACC with unmatched:{df["cigacc"].mean()}')
-df_m = df[df['cigacc'] != 0]
-print(f'ACC without unmatched:{df_m["cigacc"].mean()}')
-print(f'Number of unmatched:{len(df[df["cigacc"]==0])}/{len(df)}')
+print(f'OLD ACC:{df["cigacc_old"].mean()}')
+# df_m = df[df['cigacc'] != 0]
+# print(f'ACC without unmatched:{df_m["cigacc"].mean()}')
+# print(f'Number of unmatched:{len(df[df["cigacc"]==0])}/{len(df)}')

@@ -69,10 +69,28 @@ class TrainingController():
             self._train_accuracy.reset_states()
 
             batches = next(self._generator.get_batches(self._batches))
+            
+            # print(len(batches))
+            # print(type(batches))
+            # print(batches[0][0].shape)
+            print(type(batches[0][1]))
+            print(batches[0][1].shape)
+
+
+            
             for (batch, (inp, tar)) in enumerate(batches):  
                 inp = tf.constant(inp, dtype=tf.float32)
                 tar = tf.constant(tar, dtype=tf.int32)
-                self.train_step(inp, tar)
+                # self.train_step(inp, tar)
+                
+                #test
+                tar, tar_inp, tar_real = self.train_step(inp, tar)
+                print(tar.shape)
+                print(tar_inp.shape)
+                print(tar_real.shape)
+                import sys 
+                sys.exit()
+                
                 print (f'Epoch {epoch + 1} Batch {batch} Loss {self._train_loss.result():.4f} Accuracy {self._train_accuracy.result():.4f}', end="\r")
             print()
             
@@ -108,6 +126,8 @@ class TrainingController():
     def train_step(self, inp, tar):
         tar_inp = tar[:, :-1]
         tar_real = tar[:, 1:]
+
+        return tar, tar_inp, tar_real
 
         combined_mask = create_combined_mask(tar_inp)
         

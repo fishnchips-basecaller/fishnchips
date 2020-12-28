@@ -40,7 +40,8 @@ class TestingController():
                     'NM': besthit.NM,
                     'blen': besthit.blen,
                     'cig': analyse_cigar(besthit.cigar_str),
-                    'cigacc': 1-(besthit.NM/besthit.blen)
+                    'cigacc_old': 1-(besthit.NM/besthit.blen),
+                    'cigacc': besthit.mlen / besthit.blen
                 }    
         except:
             return {
@@ -51,6 +52,7 @@ class TestingController():
                 'NM': 0,
                 'blen': 0,
                 'cig': 0,
+                'cigacc_old':0,
                 'cigacc': 0
             }
 

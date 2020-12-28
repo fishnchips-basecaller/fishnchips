@@ -11,7 +11,15 @@ class ChironDataLoader:
         self._construct_key_lst()
     
     def get_ids(self):
-        return self._ids
+        ids = []
+
+        for idx in self._ids:
+            if idx.split('_')[0] == 'Lambda':
+                ids.append(idx)
+        print(len(ids))
+        return ids
+
+        # return self._ids
 
     def _construct_file_dict(self, dir):   
         file_dict = {}

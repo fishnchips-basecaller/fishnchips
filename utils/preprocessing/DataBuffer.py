@@ -51,6 +51,7 @@ class DataBuffer():
 
     def _get_read_ids(self):
         read_ids = self._loader.load_read_ids()
+
         np.random.shuffle(read_ids)
         return read_ids
 
